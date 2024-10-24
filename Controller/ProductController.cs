@@ -13,9 +13,15 @@ public class ProductController: ControllBase
         _ProductService = ProductService;
     }
 
-    private Product GetById(int id) //Se encuentra aca para ser funcional dentro de la logica, no es un endpoint
+    [HttpGet("{id}")]
+    public ActionResult<Product> GetById(int id)
     {
-        return _ProductService.GetAll().FirstOrDefault(p => p.Id == id);
+    Product? p = _ProductService.GetById(id);
+    if(p == null)
+    {
+    return NotFound("Producto no Encotrado");
+    }
+    return Ok(p);
     }
 
     [HttpGet]
