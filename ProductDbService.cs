@@ -49,21 +49,24 @@ public class ProductDbService: IProductService
 
     public Product Update(int id, ProductDTO p)
     {
-        var act = _context.Products;
+        // Busca el producto a actualizar
+        var act = _context.Products.FirstOrDefault(prod => prod.Id == id);
         
+        if (act == null)
+        {
+            // Manejo de error en caso de que no se encuentre el producto
+            return null;
+        }
+
+        // Actualiza las propiedades del producto
         act.Name = p.Name;
         act.Description = p.Description;
         act.Price = p.Price;
         act.Stock = p.Stock;
-
-        foreach(int idProduct in p.ProductIds)
-        {
-            product.Product.Add(_context.Products.Find(idProduct));
-        }
-
-        //Hace que entity reconozca que el objeto a sido modificado
+        // Marca el producto como modificado en el contexto
         _context.Entry(act).State = EntityState.Modified;
         _context.SaveChanges();
         return act;
     }
+
 }
