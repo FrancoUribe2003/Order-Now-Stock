@@ -7,16 +7,15 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Agregamos los controladores
+// Agregamos los controladores
 builder.Services.AddControllers();
 
+// Configuración de Swagger con seguridad para JWT
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    // Configuración básica de Swagger
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tu API", Version = "v1" });
 
-    // Configuración de seguridad para JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -36,25 +35,61 @@ builder.Services.AddSwaggerGen(c =>
                 {
                     Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
-                }
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header,
             },
             new string[] {}
         }
     });
 });
 
-builder.Services.AddSqlServer<ProductContext>(builder.Configuration.GetConnectionString("SDBOrderNow"));
+// Configurar DbContext con SQL Server
+builder.Services.AddDbContext<ProductContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SDBOrderNow")));
+
+// Agregar el servicio de productos (Dependency Injection)
 builder.Services.AddScoped<IProductoService, ProductDbService>();
+
+// Configurar JWT para autenticación
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
+
+// Agregar autorización
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware de desarrollo y Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Middleware de HTTPS, autenticación y autorización
 app.UseHttpsRedirection();
+
+app.UseAuthentication(); // Middleware de autenticación
+app.UseAuthorization();  // Middleware de autorización
+
+app.MapControllers(); // Mapear los controladores
 
 app.Run();
