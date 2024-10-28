@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-    
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 [ApiController]
 [Route("api/Products")]
-
-public class ProductController: ControllBase 
+public class ProductController : ControllerBase 
 {
     private readonly IProductService _ProductService;
 
@@ -16,12 +18,12 @@ public class ProductController: ControllBase
     [HttpGet("{id}")]
     public ActionResult<Product> GetById(int id)
     {
-    Product? p = _ProductService.GetById(id);
-    if(p == null)
-    {
-    return NotFound("Producto no Encotrado");
-    }
-    return Ok(p);
+        Product? p = _ProductService.GetById(id);
+        if (p == null)
+        {
+            return NotFound("Producto no encontrado");
+        }
+        return Ok(p);
     }
 
     [HttpGet]
@@ -34,17 +36,17 @@ public class ProductController: ControllBase
     public ActionResult<Product> NewProduct(ProductDTO p)
     {
         Product _p = _ProductService.Create(p);
-        return Created("", newProduct);
+        return Created("", _p); // Cambiado a _p
     }
 
     [HttpDelete("{id}")]
     public ActionResult Delete(int id)
     {
-        var p = _ProductService.GetById(p);
+        var p = _ProductService.GetById(id); // Cambiado a id
 
-        if(p == null)
+        if (p == null)
         {
-            return NotFound("No existe ningun producto con ese ID")
+            return NotFound("No existe ningun producto con ese ID");
         }
 
         _ProductService.Delete(id);
@@ -56,11 +58,11 @@ public class ProductController: ControllBase
     {
         var Product = _ProductService.Update(id, p);
 
-        if(Product is null)
+        if (Product is null)
         {
             return NotFound();
         }
-        
-        return Created("", newProduct);
+
+        return Ok(Product); // Cambiado a Product
     }
 }

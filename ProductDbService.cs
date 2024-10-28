@@ -13,18 +13,11 @@ public class ProductDbService: IProductService
     {
         var product = new Product
         {
-            Id = p.Id,
             Name = p.Name,
             Price = p.Price,
             Description = p.Description,
             Stock = p.Stock
         };
-
-        foreach(int idProduct in p.ProductIds)
-        {
-            product.Product.Add(_context.Products.Find(idProduct));
-        }
-
         _context.Add(product);
         _context.SaveChanges();
         return product;
@@ -45,6 +38,11 @@ public class ProductDbService: IProductService
     public IEnumerable<Product> GetAll()
     {
         return _context.Products;
+    }
+
+    public Product GetById(int id)
+    {
+        return _context.Products.Find(id);
     }
 
     public Product Update(int id, ProductDTO p)
