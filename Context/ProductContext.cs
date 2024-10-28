@@ -12,9 +12,19 @@ public class ProductContext : DbContext
     {
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.Property(a => a.Name).IsRequired();  
-            entity.Property(a => a.Price).IsRequired(); 
-            entity.Property(a => a.Stock).IsRequired();             
+            //PROPIEDAD NAME
+            entity.Property(a => a.Name)
+                .IsRequired()
+                .HasMaxLength(100); 
+
+            //PROPIEDAD PRICE
+            entity.Property(a => a.Price)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
+
+            //PROPIEDAD STOCK
+            entity.Property(a => a.Stock)
+                .IsRequired();
         });
     }
 }

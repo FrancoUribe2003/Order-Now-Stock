@@ -4411,24 +4411,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ufran\\.nuget\\packages\\": {}
+    "C:\\Users\\andre\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ufran\\OneDrive\\Escritorio\\Order-Now\\order-now.csproj",
+      "projectUniqueName": "A:\\Documents SSD\\UAP\\2° AÑO\\Segundo cuatrimestre\\ingenieria-software-3\\order-now\\order-now\\order-now.csproj",
       "projectName": "order-now",
-      "projectPath": "C:\\Users\\ufran\\OneDrive\\Escritorio\\Order-Now\\order-now.csproj",
-      "packagesPath": "C:\\Users\\ufran\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ufran\\OneDrive\\Escritorio\\Order-Now\\obj\\",
+      "projectPath": "A:\\Documents SSD\\UAP\\2° AÑO\\Segundo cuatrimestre\\ingenieria-software-3\\order-now\\order-now\\order-now.csproj",
+      "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+      "outputPath": "A:\\Documents SSD\\UAP\\2° AÑO\\Segundo cuatrimestre\\ingenieria-software-3\\order-now\\order-now\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ufran\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4502,7 +4505,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
