@@ -1,9 +1,9 @@
-public interface IProductoService
+
+public interface IProductService
 {
-    public IEnumerable<Producto> GetAll();
-    public Autor GetById(int id);
-    
-    public Producto Create(ProductoDTO p);
+    public IEnumerable<Product> GetAll();
+    public Product GetById(int id);
+    public Product Create(ProductDTO p);
     public bool Delete(int id);
-    public Producto Update(int id, Producto p);
+    public Product Update(int id, ProductDTO p);
 }
