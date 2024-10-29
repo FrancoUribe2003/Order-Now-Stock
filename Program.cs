@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tu API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Stock OrderNow", Version = "v1" });
 });
 
 // Configurar DbContext con SQL Server
@@ -35,7 +35,5 @@ if (app.Environment.IsDevelopment())
 
 // Middleware de HTTPS
 app.UseHttpsRedirection();
-
 app.MapControllers(); // Mapear los controladores
-
 app.Run();

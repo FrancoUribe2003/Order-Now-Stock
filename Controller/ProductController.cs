@@ -1,68 +1,69 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 
 [ApiController]
 [Route("api/Products")]
 public class ProductController : ControllerBase 
 {
-    private readonly IProductService _ProductService;
+    private readonly IProductService _productService;
 
-    public ProductController(IProductService ProductService)
+
+    public ProductController(IProductService productService)
     {
-        _ProductService = ProductService;
+        _productService = productService;
     }
-
-    [HttpGet("{id}")]
-    public ActionResult<Product> GetById(int id)
-    {
-        Product? p = _ProductService.GetById(id);
-        if (p == null)
-        {
-            return NotFound("Producto no encontrado");
-        }
-        return Ok(p);
-    }
-
     [HttpGet]
-    public ActionResult<List<Product>> GetAll()
+    public async Task<ActionResult<List<Product>>> GetAll()
     {
-        return Ok(_ProductService.GetAll());
+        var products = await _productService.GetAllAsync() ?? new List<Product>();
+        return Ok(products);
     }
-
     [HttpPost]
-    public ActionResult<Product> NewProduct(ProductDTO p)
+    public async Task<ActionResult<Product>> NewProduct([FromBody] ProductDTO productDto)
     {
-        Product _p = _ProductService.Create(p);
-        return Created("", _p); // Cambiado a _p
-    }
-
-    [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
-    {
-        var p = _ProductService.GetById(id); // Cambiado a id
-
-        if (p == null)
+        if (!ModelState.IsValid)
         {
-            return NotFound("No existe ningun producto con ese ID");
+            return BadRequest(ModelState);
         }
 
-        _ProductService.Delete(id);
+        var newProduct = await _productService.CreateAsync(productDto);
+        return CreatedAtAction(nameof(GetById), new { id = newProduct.Id }, newProduct);
+    }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Product>> GetById(int id)
+    {
+        var product = await _productService.GetByIdAsync(id);
+        if (product == null)
+        {
+            return NotFound("Product not found");
+        }
+        return Ok(product);
+    }
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var deleted = await _productService.DeleteAsync(id);
+        if (!deleted)
+        {
+            return NotFound("There is no product with that ID");
+        }
         return NoContent();
     }
-
     [HttpPut("{id}")]
-    public ActionResult<Product> Update(int id, ProductDTO p)
+    public async Task<IActionResult> Update(int id, [FromBody] ProductDTO productDto)
     {
-        var Product = _ProductService.Update(id, p);
-
-        if (Product is null)
+        if (!ModelState.IsValid)
         {
-            return NotFound();
+            return BadRequest(ModelState);
         }
 
-        return Ok(Product); // Cambiado a Product
+        var updatedProduct = await _productService.UpdateAsync(id, productDto);
+        if (updatedProduct == null)
+        {
+            return NotFound("Prodcut not found");
+        }
+
+        return NoContent();
     }
 }

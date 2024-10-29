@@ -1,9 +1,8 @@
-
 public interface IProductService
 {
-    public IEnumerable<Product> GetAll();
-    public Product GetById(int id);
-    public Product Create(ProductDTO p);
-    public bool Delete(int id);
-    public Product Update(int id, ProductDTO p);
+    Task<IEnumerable<Product>> GetAllAsync();
+    Task<Product> GetByIdAsync(int id);
+    Task<Product> CreateAsync(ProductDTO productDto);
+    Task<bool> DeleteAsync(int id);
+    Task<Product> UpdateAsync(int id, ProductDTO productDto);
 }

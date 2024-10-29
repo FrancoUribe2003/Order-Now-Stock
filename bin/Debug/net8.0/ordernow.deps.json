@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "order-now/1.0.0": {
+      "ordernow/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.8",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.8",
@@ -17,7 +17,7 @@
           "Swashbuckle.AspNetCore": "6.4.0"
         },
         "runtime": {
-          "order-now.dll": {}
+          "ordernow.dll": {}
         }
       },
       "Azure.Core/1.35.0": {
@@ -970,7 +970,7 @@
     }
   },
   "libraries": {
-    "order-now/1.0.0": {
+    "ordernow/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
