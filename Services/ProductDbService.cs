@@ -67,4 +67,36 @@ public class ProductDbService : IProductService
         }
         return false;
     }
+
+    public async Task<bool> UpdateStockAsync(IEnumerable<ProductStockUpdateDTO> products)
+    {
+        foreach (var productUpdate in products)
+        {
+            // Obtener el producto desde la base de datos
+            var product = await _context.Products.FindAsync(productUpdate.ProductId);
+            
+            // Verificar si el producto existe
+            if (product == null)
+            {
+                return false; // Producto no encontrado
+            }
+
+            // Verificar si hay suficiente stock
+            if (product.Stock < productUpdate.Quantity)
+            {
+                return false; // Stock insuficiente
+            }
+
+            // Restar la cantidad del stock
+            product.Stock -= productUpdate.Quantity;
+            
+            // Actualizar el producto en la base de datos
+            _context.Products.Update(product);
+        }
+
+        // Guardar todos los cambios en una sola transacción
+        await _context.SaveChangesAsync();
+        
+        return true; // Todo salió bien
+    }
 }

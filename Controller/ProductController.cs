@@ -61,9 +61,32 @@ public class ProductController : ControllerBase
         var updatedProduct = await _productService.UpdateAsync(id, productDto);
         if (updatedProduct == null)
         {
-            return NotFound("Prodcut not found");
+            return NotFound("Product not found");
         }
 
         return NoContent();
     }
+
+    [HttpPut("/ProductOrder")]
+    public async Task<IActionResult> UpdateStock([FromBody] IEnumerable<ProductStockUpdateDTO> productStockUpdateDTO)
+    {
+        // Validar el DTO
+        if (productStockUpdateDTO == null || !productStockUpdateDTO.Any())
+        {
+            return BadRequest("La lista de productos no puede estar vacía.");
+        }
+
+        // Llamar al servicio para actualizar el stock
+        var result = await _productService.UpdateStockAsync(productStockUpdateDTO);
+
+        // Manejo de errores
+        if (!result)
+        {
+            return BadRequest("Error al actualizar el stock. Verifica que las cantidades no excedan el stock disponible.");
+        }
+
+        return NoContent();
+    }
+
+
 }
