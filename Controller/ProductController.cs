@@ -67,7 +67,7 @@ public class ProductController : ControllerBase
         return NoContent();
     }
 
-    [HttpPut("/ProductOrder")]
+    [HttpPut("updateStockBatch")]
     public async Task<IActionResult> UpdateStock([FromBody] IEnumerable<ProductStockUpdateDTO> productStockUpdateDTO)
     {
         // Validar el DTO

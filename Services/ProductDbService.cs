@@ -73,7 +73,7 @@ public class ProductDbService : IProductService
         foreach (var productUpdate in products)
         {
             // Obtener el producto desde la base de datos
-            var product = await _context.Products.FindAsync(productUpdate.ProductId);
+            var product = await _context.Products.FindAsync(productUpdate.ProductIds);
             
             // Verificar si el producto existe
             if (product == null)

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yl6lRVMzSnk=",
+  "dgSpecHash": "W8FEndnA/AU=",
   "success": true,
-  "projectFilePath": "A:\\Documents SSD\\UAP\\2° AÑO\\Segundo cuatrimestre\\ingenieria-software-3\\order-now\\order-now\\order-now.csproj",
+  "projectFilePath": "A:\\Documents SSD\\UAP\\2° AÑO\\Segundo cuatrimestre\\ingenieria-software-3\\order-now\\order-now-stock\\order-now.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\andre\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\andre\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
